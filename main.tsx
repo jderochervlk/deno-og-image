@@ -8,6 +8,8 @@ async function makeImg(searchParams: URLSearchParams) {
   const author = searchParams.get("author") ?? ""
   const img = searchParams.get("img") ?? ""
 
+  console.log(img)
+
   const robotoArrayBuffer = await Deno.readFile("./Roboto-Regular.ttf")
   const svg = await satori(
     html`<div style="
@@ -21,6 +23,7 @@ async function makeImg(searchParams: URLSearchParams) {
         <p>${tag}</h2>
         <p>${author}</p>
         <p>${date}</p>
+        <img src="${img}"/>
       </div>
     `,
     {
