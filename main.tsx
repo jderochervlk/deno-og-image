@@ -4,7 +4,7 @@ import { html } from "npm:satori-html"
 const robotoArrayBuffer = await Deno.readFile("./Roboto-Regular.ttf")
 const robotoBoldArrayBuffer = await Deno.readFile("./Roboto-Bold.ttf")
 
-const cache = await caches.open("app-cache")
+const cache = await caches.open("app-cache-1")
 
 const template = (url: URL) => {
   const searchParams = new URLSearchParams(url.searchParams)
