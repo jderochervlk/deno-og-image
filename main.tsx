@@ -65,14 +65,16 @@ async function makeImgResponse(req: Request) {
   try {
     const url = new URL(req.url)
     const svg = await makeImg(url)
-    return new Response(svg, { headers: { "Content-Type": "image/svg+xml" } })
-  } catch (err) {
-    console.error(err)
-    const res = new Response(JSON.stringify(err, null, 2), {
-      status: 500,
+    const res = new Response(svg, {
+      headers: { "Content-Type": "image/svg+xml" },
     })
     await cache.put(req, res.clone())
     return res
+  } catch (err) {
+    console.error(err)
+    return new Response(JSON.stringify(err, null, 2), {
+      status: 500,
+    })
   }
 }
 
