@@ -2,5 +2,8 @@
   "tasks": {
     "dev": "deno run --watch -A main.tsx"
   },
-  "lock": false
+  "lock": false,
+  "fmt": {
+    "semiColons": false
+  }
 }
