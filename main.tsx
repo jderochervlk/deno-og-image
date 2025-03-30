@@ -28,8 +28,7 @@ Deno.serve((res) => {
       return new Response()
     case "/test":
       return new Response(
-        `
-        <html prefix="og: https://ogp.me/ns#">
+        `<html prefix="og: https://ogp.me/ns#">
         <head>
         <title>The Rock (1996)</title>
         <meta property="og:title" content="The Rock" />
@@ -37,9 +36,10 @@ Deno.serve((res) => {
         <meta property="og:url" content="https://www.imdb.com/title/tt0117500/" />
         <meta property="og:image" content="https://joshderoche-deno-og-ima-93-4fxpc5cs4p2p.deno.dev/" />
         </head>
+        <div>Test</div>
         </html>
         `,
-        { headers: { "Content-Type": "application/xhtml+xml  " } },
+        { headers: { "Content-Type": "text/html" } },
       )
     default:
       return new Response("404: Not Found", {
