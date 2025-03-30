@@ -15,7 +15,7 @@ async function makeImg(searchParams: URLSearchParams) {
 
   const svg = await satori(
     html`<div style="
-        background: rgb(255, 255, 255);
+        background: url('/background.png');
         color: rgb(35, 37, 56); 
         width: 100%;
         height: 100%;
@@ -24,10 +24,12 @@ async function makeImg(searchParams: URLSearchParams) {
         padding: 25px;
       ">
         <p style="rgb(105, 107, 125)">${date}</p>
-        <h1 style="font-weight: 700;"><strong>${title}</strong></h1>
-        <p>${tag}</p>
-        <p>${author}</p>
-        <img src="${img}"/>
+        <h1 style="font-weight: 700; font-size: 4rem;"><strong>${title}</strong></h1>
+        <p style="font-size: 2rem;">${tag}</p>
+        <div style="display: flex;">
+          <img src="${img}" height="50" width="50" style="border-radius: 9999px; margin-right: 25px;"/>
+          <p>${author}</p>
+        </div>
       </div>
     `,
     {
@@ -54,6 +56,11 @@ async function makeImg(searchParams: URLSearchParams) {
 const test =
   "?title=ReScript%20Retreat&tag=Accelerating%20ReScript%20development%20through%20meeting%20in-person.&date=Mar%2017%2C%202025&author=ReScript%20Association&img=https%3A%2F%2Fpbs.twimg.com%2Fprofile_images%2F1045362176117100545%2FMioTQoTp_400x400.jpg"
 
+async function readBackgroundImage() {
+  const file = await Deno.open("./background.png", { read: true })
+  return new Response(file.readable)
+}
+
 async function makeImgResponse(searchParams: URLSearchParams) {
   try {
     const svg = await makeImg(searchParams)
@@ -72,9 +79,11 @@ Deno.serve(async (res) => {
 
   switch (url.pathname) {
     case "/":
-      return makeImgResponse(searchParams)
+      return await makeImgResponse(searchParams)
     case "/favicon.ico":
       return new Response()
+    case "/background.png":
+      return await readBackgroundImage()
     case "/test":
       return new Response(
         `
