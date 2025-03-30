@@ -47,6 +47,7 @@ async function makeImgResponse(searchParams: URLSearchParams) {
     const svg = await makeImg(searchParams)
     return new Response(svg, { headers: { "Content-Type": "image/svg+xml" } })
   } catch (err) {
+    console.error(err)
     return new Response(JSON.stringify(err, null, 2), {
       status: 500,
     })
