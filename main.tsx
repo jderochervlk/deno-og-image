@@ -4,6 +4,8 @@ import { html } from "npm:satori-html"
 const robotoArrayBuffer = await Deno.readFile("./Roboto-Regular.ttf")
 const robotoBoldArrayBuffer = await Deno.readFile("./Roboto-Bold.ttf")
 
+const cache = await caches.open("app-cache")
+
 const template = (url: URL) => {
   const searchParams = new URLSearchParams(url.searchParams)
 
@@ -54,8 +56,14 @@ async function makeImg(url: URL) {
   return svg
 }
 
-async function makeImgResponse(url: URL) {
+async function makeImgResponse(req: Request) {
+  const cachedRequest = await cache.match(req)
+  if (cachedRequest) {
+    console.log("cache hit!")
+    return cachedRequest
+  }
   try {
+    const url = new URL(req.url)
     const svg = await makeImg(url)
     return new Response(svg, { headers: { "Content-Type": "image/svg+xml" } })
   } catch (err) {
@@ -71,7 +79,7 @@ Deno.serve(async (req) => {
 
   switch (url.pathname) {
     case "/":
-      return await makeImgResponse(url)
+      return await makeImgResponse(req)
     case "/favicon.ico":
       return new Response()
     case "/preview/":
