@@ -21,7 +21,6 @@ async function makeImg(searchParams: URLSearchParams) {
         <p>${tag}</h2>
         <p>${author}</p>
         <p>${date}</p>
-        <img src=${img}/>
       </div>
     `,
     {
