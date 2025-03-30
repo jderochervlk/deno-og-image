@@ -12,8 +12,7 @@ type Args = {
 async function makeImg({ title, tag, date, author, img }: Args) {
   const robotoArrayBuffer = await Deno.readFile("./Roboto-Regular.ttf")
   const svg = await satori(
-    html`
-    <div style="
+    html`<div style="
         background: rgb(255, 255, 255);
         color: rgb(35, 37, 56); 
         width: 100%;
