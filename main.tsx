@@ -1,6 +1,8 @@
 import satori from "npm:satori"
 import { html } from "npm:satori-html"
 
+const robotoArrayBuffer = await Deno.readFile("./Roboto-Regular.ttf")
+
 async function makeImg(searchParams: URLSearchParams) {
   const title = searchParams.get("title") ?? ""
   const tag = searchParams.get("tag") ?? ""
@@ -10,7 +12,6 @@ async function makeImg(searchParams: URLSearchParams) {
 
   console.log(img)
 
-  const robotoArrayBuffer = await Deno.readFile("./Roboto-Regular.ttf")
   const svg = await satori(
     html`<div style="
         background: rgb(255, 255, 255);
