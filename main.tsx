@@ -59,7 +59,7 @@ async function makeImg(url: URL) {
 async function makeImgResponse(req: Request) {
   const cachedRequest = await cache.match(req)
   if (cachedRequest) {
-    console.log("cache hit!")
+    console.debug("cache hit!")
     return cachedRequest
   }
   try {
