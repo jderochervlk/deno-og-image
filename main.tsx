@@ -14,6 +14,7 @@ const template = (url: URL) => {
   const author = searchParams.get("author") ?? ""
   const img = searchParams.get("img") ?? ""
   return `<div style="
+        background-color: white;
         background: url('${root}/background.png');
         background-repeat: no-repeat;
         background-position: right bottom;
@@ -103,7 +104,7 @@ Deno.serve(async (req) => {
           <title>OG test page</title>
           <meta property="og:title" content="Open Graph Test Page" />
           <meta property="og:url" content="https://jvlk-og.deno.dev/test" />
-          <meta property="og:image" content="https://jvlk-og.deno.dev/?title=ReScript%20Retreat&tag=Accelerating%20ReScript%20development%20through%20meeting%20in-person.&date=Mar%2017%2C%202025&author=ReScript%20Association&img=https%3A%2F%2Fpbs.twimg.com%2Fprofile_images%2F1045362176117100545%2FMioTQoTp_400x400.jpg" />
+          <meta property="og:image" content="https://jvlk-og.deno.dev/?title=ReScript%20Retreat&tag=Accelerating%20ReScript%20development%20through%20meeting%20in-person.&img=https%3A%2F%2Fpbs.twimg.com%2Fprofile_images%2F1045362176117100545%2FMioTQoTp_400x400.jpg&date=Mar%2017%2C%202025&author=ReScript%20Association" />
           </head>
           <div>Test</div>
         </html>
