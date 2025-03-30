@@ -48,7 +48,6 @@ async function makeImgResponse(searchParams: URLSearchParams) {
     return new Response(svg, { headers: { "Content-Type": "image/svg+xml" } })
   } catch (err) {
     return new Response(JSON.stringify(err, null, 2), {
-      headers: { "Content-Type": "application/json" },
       status: 500,
     })
   }
