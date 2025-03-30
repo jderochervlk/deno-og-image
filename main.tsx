@@ -3,8 +3,6 @@ import { html } from "npm:satori-html"
 
 const robotoArrayBuffer = await Deno.readFile("./Roboto-Regular.ttf")
 const robotoBoldArrayBuffer = await Deno.readFile("./Roboto-Bold.ttf")
-const bgImage = await Deno.open("./background.png", { read: true })
-const logo = await Deno.open("./rescript-logo.png", { read: true })
 
 const template = (url: URL) => {
   const searchParams = new URLSearchParams(url.searchParams)
@@ -27,7 +25,7 @@ const template = (url: URL) => {
         justify-content: space-between;
         padding: 25px;
       ">
-      <div style="display: flex;">
+      <div style="display: flex; flex-direction: column;">
         <h1 style="font-weight: 700; font-size: 6rem;"><strong>${title}</strong></h1>
         <p style="font-size: 3rem;">${tag}</p>
       </div>
@@ -63,11 +61,14 @@ async function makeImg(url: URL) {
 const test =
   "?title=ReScript%20Retreat&tag=Accelerating%20ReScript%20development%20through%20meeting%20in-person.&date=Mar%2017%2C%202025&img=https%3A%2F%2Fpbs.twimg.com%2Fprofile_images%2F1045362176117100545%2FMioTQoTp_400x400.jpg&author=ReScript%20Association"
 
-function readBackgroundImage() {
+async function readBackgroundImage() {
+  const bgImage = await Deno.open("./background.png", { read: true })
   return new Response(bgImage.readable)
 }
 
-function readLogoImage() {
+async function readLogoImage() {
+  const logo = await Deno.open("./rescript-logo.png", { read: true })
+
   return new Response(logo.readable)
 }
 
@@ -92,9 +93,9 @@ Deno.serve(async (req) => {
     case "/favicon.ico":
       return new Response()
     case "/background.png":
-      return readBackgroundImage()
+      return await readBackgroundImage()
     case "/rescript-logo.png":
-      return readLogoImage()
+      return await readLogoImage()
     case "/preview/":
       return new Response(template(url), {
         headers: { "Content-type": "text/html" },
