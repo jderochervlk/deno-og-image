@@ -102,8 +102,8 @@ Deno.serve(async (req) => {
           <head>
           <title>OG test page</title>
           <meta property="og:title" content="Open Graph Test Page" />
-          <meta property="og:url" content="https://joshderoche-deno-og-ima-93-4fxpc5cs4p2p.deno.dev/test" />
-          <meta property="og:image" content="https://joshderoche-deno-og-ima-93-4fxpc5cs4p2p.deno.dev?title=ReScript%20Retreat&tag=Accelerating%20ReScript%20development%20through%20meeting%20in-person.&date=Mar%2017%2C%202025&author=ReScript%20Association&img=https%3A%2F%2Fpbs.twimg.com%2Fprofile_images%2F1045362176117100545%2FMioTQoTp_400x400.jpg" />
+          <meta property="og:url" content="https://jvlk-og.deno.dev/test" />
+          <meta property="og:image" content="https://jvlk-og.deno.dev/?title=ReScript%20Retreat&tag=Accelerating%20ReScript%20development%20through%20meeting%20in-person.&date=Mar%2017%2C%202025&author=ReScript%20Association&img=https%3A%2F%2Fpbs.twimg.com%2Fprofile_images%2F1045362176117100545%2FMioTQoTp_400x400.jpg" />
           </head>
           <div>Test</div>
         </html>
