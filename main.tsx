@@ -60,13 +60,17 @@ const test =
 
 async function readBackgroundImage() {
   const bgImage = await Deno.open("./background.png", { read: true })
-  return new Response(bgImage.readable)
+  return new Response(bgImage.readable, {
+    headers: { "Content-Type": "image/png" },
+  })
 }
 
 async function readLogoImage() {
   const logo = await Deno.open("./rescript-logo.png", { read: true })
 
-  return new Response(logo.readable)
+  return new Response(logo.readable, {
+    headers: { "Content-Type": "image/png" },
+  })
 }
 
 async function makeImgResponse(url: URL) {
