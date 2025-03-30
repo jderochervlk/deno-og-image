@@ -59,16 +59,16 @@ const test =
   "?title=ReScript%20Retreat&tag=Accelerating%20ReScript%20development%20through%20meeting%20in-person.&date=Mar%2017%2C%202025&img=https%3A%2F%2Fpbs.twimg.com%2Fprofile_images%2F1045362176117100545%2FMioTQoTp_400x400.jpg&author=ReScript%20Association"
 
 async function readBackgroundImage() {
-  const bgImage = await Deno.open("./background.png", { read: true })
-  return new Response(bgImage.readable, {
+  const bgImage = await Deno.readFile("./background.png")
+  return new Response(bgImage, {
     headers: { "Content-Type": "image/png" },
   })
 }
 
 async function readLogoImage() {
-  const logo = await Deno.open("./rescript-logo.png", { read: true })
+  const logo = await Deno.readFile("./rescript-logo.png")
 
-  return new Response(logo.readable, {
+  return new Response(logo, {
     headers: { "Content-Type": "image/png" },
   })
 }
