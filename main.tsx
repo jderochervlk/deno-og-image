@@ -27,9 +27,9 @@ const template = (url: URL) => {
         <p style="rgb(105, 107, 125)">${date}</p>
         <h1 style="font-weight: 700; font-size: 4rem;"><strong>${title}</strong></h1>
         <p style="font-size: 2rem;">${tag}</p>
-        <div style="display: flex;">
+        <div style="display: flex; align-items: center;">
           <img src="${img}" height="50" width="50" style="border-radius: 9999px; margin-right: 25px;"/>
-          <p>${author}</p>
+          <p style="font-size: 1.25rem;">${author}</p>
         </div>
       </div>
     `
@@ -60,7 +60,7 @@ async function makeImg(url: URL) {
   return svg
 }
 const test =
-  "?title=ReScript%20Retreat&tag=Accelerating%20ReScript%20development%20through%20meeting%20in-person.&date=Mar%2017%2C%202025&author=ReScript%20Association&img=https%3A%2F%2Fpbs.twimg.com%2Fprofile_images%2F1045362176117100545%2FMioTQoTp_400x400.jpg"
+  "?title=ReScript%20Retreat&tag=Accelerating%20ReScript%20development%20through%20meeting%20in-person.&date=Mar%2017%2C%202025&img=https%3A%2F%2Fpbs.twimg.com%2Fprofile_images%2F1045362176117100545%2FMioTQoTp_400x400.jpg&author=ReScript%20Association"
 
 async function readBackgroundImage() {
   const file = await Deno.open("./background.png", { read: true })
