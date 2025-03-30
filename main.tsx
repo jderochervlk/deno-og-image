@@ -2,6 +2,7 @@ import satori from "npm:satori"
 import { html } from "npm:satori-html"
 
 const robotoArrayBuffer = await Deno.readFile("./Roboto-Regular.ttf")
+const robotoBoldArrayBuffer = await Deno.readFile("./Roboto-Bold.ttf")
 
 async function makeImg(searchParams: URLSearchParams) {
   const title = searchParams.get("title") ?? ""
@@ -10,7 +11,7 @@ async function makeImg(searchParams: URLSearchParams) {
   const author = searchParams.get("author") ?? ""
   const img = searchParams.get("img") ?? ""
 
-  console.log(img)
+  console.log(author)
 
   const svg = await satori(
     html`<div style="
@@ -18,12 +19,14 @@ async function makeImg(searchParams: URLSearchParams) {
         color: rgb(35, 37, 56); 
         width: 100%;
         height: 100%;
-        display:flex
+        display:flex;
+        flex-direction: column;
+        padding: 25px;
       ">
-        <h1>${title}</h2>
-        <p>${tag}</h2>
+        <p style="rgb(105, 107, 125)">${date}</p>
+        <h1 style="font-weight: 700;"><strong>${title}</strong></h1>
+        <p>${tag}</p>
         <p>${author}</p>
-        <p>${date}</p>
         <img src="${img}"/>
       </div>
     `,
@@ -35,6 +38,12 @@ async function makeImg(searchParams: URLSearchParams) {
           name: "Roboto",
           data: robotoArrayBuffer,
           weight: 400,
+          style: "normal",
+        },
+        {
+          name: "Roboto",
+          data: robotoBoldArrayBuffer,
+          weight: 700,
           style: "normal",
         },
       ],
