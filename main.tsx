@@ -1,15 +1,13 @@
 import satori from "npm:satori"
 import { html } from "npm:satori-html"
 
-type Args = {
-  title: string
-  tag: string
-  date: string
-  author: string
-  img: string
-}
+async function makeImg(searchParams: URLSearchParams) {
+  const title = searchParams.get("title") ?? ""
+  const tag = searchParams.get("tag") ?? ""
+  const date = searchParams.get("date") ?? ""
+  const author = searchParams.get("author") ?? ""
+  const img = searchParams.get("img") ?? ""
 
-async function makeImg({ title, tag, date, author, img }: Args) {
   const robotoArrayBuffer = await Deno.readFile("./Roboto-Regular.ttf")
   const svg = await satori(
     html`<div style="
@@ -44,20 +42,25 @@ async function makeImg({ title, tag, date, author, img }: Args) {
 const test =
   "?title=ReScript%20Retreat&tag=Accelerating%20ReScript%20development%20through%20meeting%20in-person.&date=Mar%2017%2C%202025&author=ReScript%20Association&img=https%3A%2F%2Fpbs.twimg.com%2Fprofile_images%2F1045362176117100545%2FMioTQoTp_400x400.jpg"
 
+async function makeImgResponse(searchParams: URLSearchParams) {
+  try {
+    const svg = await makeImg(searchParams)
+    return new Response(svg, { headers: { "Content-Type": "image/svg+xml" } })
+  } catch (err) {
+    return new Response(JSON.stringify(err, null, 2), {
+      headers: { "Content-Type": "application/json" },
+      status: 500,
+    })
+  }
+}
+
 Deno.serve(async (res) => {
   const url = new URL(res.url)
   const searchParams = new URLSearchParams(url.searchParams)
 
-  const title = searchParams.get("title") ?? ""
-  const tag = searchParams.get("tag") ?? ""
-  const date = searchParams.get("date") ?? ""
-  const author = searchParams.get("author") ?? ""
-  const img = searchParams.get("img") ?? ""
-
-  const svg = await makeImg({ title, tag, date, author, img })
   switch (url.pathname) {
     case "/":
-      return new Response(svg, { headers: { "Content-Type": "image/svg+xml" } })
+      return makeImgResponse(searchParams)
     case "/favicon.ico":
       return new Response()
     case "/test":
