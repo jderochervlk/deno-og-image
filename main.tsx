@@ -3,6 +3,8 @@ import { html } from "npm:satori-html"
 
 const robotoArrayBuffer = await Deno.readFile("./Roboto-Regular.ttf")
 const robotoBoldArrayBuffer = await Deno.readFile("./Roboto-Bold.ttf")
+const bgImage = await Deno.open("./background.png", { read: true })
+const logo = await Deno.open("./rescript-logo.png", { read: true })
 
 const template = (url: URL) => {
   const searchParams = new URLSearchParams(url.searchParams)
@@ -10,10 +12,9 @@ const template = (url: URL) => {
   const root = url.origin
   const title = searchParams.get("title") ?? ""
   const tag = searchParams.get("tag") ?? ""
-  const date = searchParams.get("date") ?? ""
-  const author = searchParams.get("author") ?? ""
-  const img = searchParams.get("img") ?? ""
-  return `<div style="
+
+  return `
+     <div style="
         background-color: white;
         background: url('${root}/background.png');
         background-repeat: no-repeat;
@@ -23,15 +24,14 @@ const template = (url: URL) => {
         height: 630px;
         display:flex;
         flex-direction: column;
+        justify-content: space-between;
         padding: 25px;
       ">
-        <p style="rgb(105, 107, 125)">${date}</p>
-        <h1 style="font-weight: 700; font-size: 4rem;"><strong>${title}</strong></h1>
-        <p style="font-size: 2rem;">${tag}</p>
-        <div style="display: flex; align-items: center;">
-          <img src="${img}" height="50" width="50" style="border-radius: 9999px; margin-right: 25px;"/>
-          <p style="font-size: 1.25rem;">${author}</p>
-        </div>
+      <div>
+        <h1 style="font-weight: 700; font-size: 6rem;"><strong>${title}</strong></h1>
+        <p style="font-size: 3rem;">${tag}</p>
+      </div>
+      <img src="${root}/rescript-logo.png" width="408" height="96.25"/>  
       </div>
     `
 }
@@ -63,9 +63,12 @@ async function makeImg(url: URL) {
 const test =
   "?title=ReScript%20Retreat&tag=Accelerating%20ReScript%20development%20through%20meeting%20in-person.&date=Mar%2017%2C%202025&img=https%3A%2F%2Fpbs.twimg.com%2Fprofile_images%2F1045362176117100545%2FMioTQoTp_400x400.jpg&author=ReScript%20Association"
 
-async function readBackgroundImage() {
-  const file = await Deno.open("./background.png", { read: true })
-  return new Response(file.readable)
+function readBackgroundImage() {
+  return new Response(bgImage.readable)
+}
+
+function readLogoImage() {
+  return new Response(logo.readable)
 }
 
 async function makeImgResponse(url: URL) {
@@ -83,15 +86,15 @@ async function makeImgResponse(url: URL) {
 Deno.serve(async (req) => {
   const url = new URL(req.url)
 
-  console.log(url.pathname)
-
   switch (url.pathname) {
     case "/":
       return await makeImgResponse(url)
     case "/favicon.ico":
       return new Response()
     case "/background.png":
-      return await readBackgroundImage()
+      return readBackgroundImage()
+    case "/rescript-logo.png":
+      return readLogoImage()
     case "/preview/":
       return new Response(template(url), {
         headers: { "Content-type": "text/html" },
