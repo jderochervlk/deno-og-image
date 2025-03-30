@@ -7,7 +7,6 @@ const robotoBoldArrayBuffer = await Deno.readFile("./Roboto-Bold.ttf")
 const template = (url: URL) => {
   const searchParams = new URLSearchParams(url.searchParams)
 
-  const root = url.origin
   const title = searchParams.get("title") ?? ""
   const tag = searchParams.get("tag") ?? ""
 
@@ -54,23 +53,6 @@ async function makeImg(url: URL) {
   )
   return svg
 }
-const test =
-  "?title=ReScript%20Retreat&tag=Accelerating%20ReScript%20development%20through%20meeting%20in-person.&date=Mar%2017%2C%202025&img=https%3A%2F%2Fpbs.twimg.com%2Fprofile_images%2F1045362176117100545%2FMioTQoTp_400x400.jpg&author=ReScript%20Association"
-
-async function readBackgroundImage() {
-  const bgImage = await Deno.readFile("./background.png")
-  return new Response(bgImage, {
-    headers: { "Content-Type": "image/png" },
-  })
-}
-
-async function readLogoImage() {
-  const logo = await Deno.readFile("./rescript-logo.png")
-
-  return new Response(logo, {
-    headers: { "Content-Type": "image/png" },
-  })
-}
 
 async function makeImgResponse(url: URL) {
   try {
@@ -92,10 +74,6 @@ Deno.serve(async (req) => {
       return await makeImgResponse(url)
     case "/favicon.ico":
       return new Response()
-    case "/background.png":
-      return await readBackgroundImage()
-    case "/rescript-logo.png":
-      return await readLogoImage()
     case "/preview/":
       return new Response(template(url), {
         headers: { "Content-type": "text/html" },
