@@ -26,7 +26,7 @@ const template = (url: URL) => {
         <h1 style="font-weight: 700; font-size: 6rem; margin-bottom: 1.5rem;"><strong>${title}</strong></h1>
         <p style="font-size: 2.5rem; background: linear-gradient(181deg, rgba(255, 255, 255, 0.78) 1%, rgba(255, 255, 255, 0) 49%); backdrop-filter: blur(5px);">${tag}</p>
       </div>
-      <img src="${root}/rescript-logo.png" width="408px" height="96.25px"/>
+      <img src="https://rescript-lang.org/static/nav-logo-full@2x.png" width="408px" height="96.25px"/>
       </div>
     `
 }
