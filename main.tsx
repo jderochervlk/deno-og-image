@@ -4,21 +4,22 @@ import { html } from "npm:satori-html"
 const robotoArrayBuffer = await Deno.readFile("./Roboto-Regular.ttf")
 const robotoBoldArrayBuffer = await Deno.readFile("./Roboto-Bold.ttf")
 
-async function makeImg(searchParams: URLSearchParams) {
+const template = (url: URL) => {
+  const searchParams = new URLSearchParams(url.searchParams)
+
+  const root = url.origin
   const title = searchParams.get("title") ?? ""
   const tag = searchParams.get("tag") ?? ""
   const date = searchParams.get("date") ?? ""
   const author = searchParams.get("author") ?? ""
   const img = searchParams.get("img") ?? ""
-
-  console.log(author)
-
-  const svg = await satori(
-    html`<div style="
-        background: url('/background.png');
+  return `<div style="
+        background: url('${root}/background.png');
+        background-repeat: no-repeat;
+        background-position: right bottom;
         color: rgb(35, 37, 56); 
-        width: 100%;
-        height: 100%;
+        width: 1200px;
+        height: 630px;
         display:flex;
         flex-direction: column;
         padding: 25px;
@@ -31,7 +32,12 @@ async function makeImg(searchParams: URLSearchParams) {
           <p>${author}</p>
         </div>
       </div>
-    `,
+    `
+}
+
+async function makeImg(url: URL) {
+  const svg = await satori(
+    html(template(url)),
     {
       width: 1200,
       height: 630,
@@ -61,9 +67,9 @@ async function readBackgroundImage() {
   return new Response(file.readable)
 }
 
-async function makeImgResponse(searchParams: URLSearchParams) {
+async function makeImgResponse(url: URL) {
   try {
-    const svg = await makeImg(searchParams)
+    const svg = await makeImg(url)
     return new Response(svg, { headers: { "Content-Type": "image/svg+xml" } })
   } catch (err) {
     console.error(err)
@@ -73,17 +79,22 @@ async function makeImgResponse(searchParams: URLSearchParams) {
   }
 }
 
-Deno.serve(async (res) => {
-  const url = new URL(res.url)
-  const searchParams = new URLSearchParams(url.searchParams)
+Deno.serve(async (req) => {
+  const url = new URL(req.url)
+
+  console.log(url.pathname)
 
   switch (url.pathname) {
     case "/":
-      return await makeImgResponse(searchParams)
+      return await makeImgResponse(url)
     case "/favicon.ico":
       return new Response()
     case "/background.png":
       return await readBackgroundImage()
+    case "/preview/":
+      return new Response(template(url), {
+        headers: { "Content-type": "text/html" },
+      })
     case "/test":
       return new Response(
         `
