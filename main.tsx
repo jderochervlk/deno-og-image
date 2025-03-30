@@ -21,12 +21,12 @@ const template = (url: URL) => {
         padding: 25px;
         height: 630px;
       ">
-       <img src="${root}/background.png" style="right: 0; bottom: 0; position: absolute; width: 1000px;"/>
+       <img src="${root}/background.png" style="right: 0; bottom: 0; position: absolute; width: 1000px;" width="100px" height="541px"/>
       <div style="display: flex; flex-direction: column;">
         <h1 style="font-weight: 700; font-size: 6rem; margin-bottom: 1.5rem;"><strong>${title}</strong></h1>
         <p style="font-size: 2.5rem; background: linear-gradient(181deg, rgba(255, 255, 255, 0.78) 1%, rgba(255, 255, 255, 0) 49%); backdrop-filter: blur(5px);">${tag}</p>
       </div>
-      <img src="${root}/rescript-logo.png" width="408" height="96.25"/>
+      <img src="${root}/rescript-logo.png" width="408px" height="96.25px"/>
       </div>
     `
 }
