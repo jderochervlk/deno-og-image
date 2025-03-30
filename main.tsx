@@ -27,7 +27,7 @@ const template = (url: URL) => {
         justify-content: space-between;
         padding: 25px;
       ">
-      <div>
+      <div style="display: flex;">
         <h1 style="font-weight: 700; font-size: 6rem;"><strong>${title}</strong></h1>
         <p style="font-size: 3rem;">${tag}</p>
       </div>
